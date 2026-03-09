@@ -2,7 +2,7 @@
 
 ## Overview
 Automated F1 Fantasy team management for https://fantasy.formula1.com/en/
-Three-step flow: gather data, Claude analyzes and recommends, apply changes.
+Two-step flow: gather data, Claude analyzes and recommends. User applies changes manually on the site.
 
 ## Quick Start
 When the user says "run the F1 Fantasy flow", "update my F1 team", or similar:
@@ -11,8 +11,7 @@ When the user says "run the F1 Fantasy flow", "update my F1 team", or similar:
 3. Read `data/state.json` and `data/algorithm_lineup.json`
 4. Research the upcoming race (web search for practice pace, weather, news, penalties, upgrades)
 5. Write your recommendation to `data/claude_lineup.json` with reasoning on every pick
-6. Run `python scripts/apply.py --show` to present both lineups to the user
-7. Wait for user to say which to apply, then run `python scripts/apply.py --apply <choice>`
+6. Present both lineups (algorithm + Claude) to the user with reasoning for each pick
 
 ## Credentials
 Set in `.env` (copy from `.env.example`). Contains F1 Fantasy email/password.
@@ -84,14 +83,8 @@ Key fields:
 - `projected_points` can be null — Claude's value is qualitative judgment, not a number
 - The overall `reasoning` field explains the high-level strategy
 
-### Step 3: Compare & Apply (`python scripts/apply.py`)
-Shows both lineups side-by-side with reasoning, then optionally applies one.
-
-```bash
-python scripts/apply.py --show              # Just compare the two lineups
-python scripts/apply.py --apply claude      # Apply Claude's pick
-python scripts/apply.py --apply algorithm   # Apply the algorithm's pick
-```
+### Step 3: User applies manually
+The user applies the chosen lineup on https://fantasy.formula1.com/en/ themselves.
 
 ## Full Workflow Example
 ```bash
@@ -106,9 +99,7 @@ python scripts/analyze.py
 #     Research the upcoming race and write your recommendation
 #     to data/claude_lineup.json"
 
-# 4. Compare and apply
-python scripts/apply.py --show              # Review both
-python scripts/apply.py --apply claude      # Execute Claude's pick
+# 4. User applies chosen lineup manually on the F1 Fantasy site
 ```
 
 ## Project Structure
@@ -121,8 +112,7 @@ f1-fantasy/
 ├── requirements.txt
 ├── scripts/
 │   ├── gather.py            # Collect all data from F1 Fantasy
-│   ├── analyze.py           # Run predictive algorithm
-│   └── apply.py             # Compare lineups & apply chosen one
+│   └── analyze.py           # Run predictive algorithm
 ├── src/
 │   ├── config.py            # Settings, URLs, credentials
 │   ├── auth.py              # Playwright login helpers
@@ -133,14 +123,12 @@ f1-fantasy/
 │   ├── season_data.py       # Seed data from completed races
 │   ├── optimizer.py         # Brute-force team optimizer
 │   ├── chips.py             # Chip strategy heuristics
-│   ├── actions.py           # Playwright browser actions
 │   └── main.py              # Legacy standalone orchestrator
 ├── data/
 │   ├── state.json           # Gathered state (Step 1)
 │   ├── algorithm_lineup.json # Algorithm recommendation (Step 1)
 │   ├── claude_lineup.json   # Claude recommendation (Step 2)
 │   ├── my_team_screenshot.png
-│   ├── post_apply_screenshot.png
 │   └── history/             # Timestamped state snapshots
 └── tests/
     ├── test_optimizer.py
