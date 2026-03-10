@@ -122,8 +122,7 @@ f1-fantasy/
 │   ├── circuits.py          # Circuit classification and track types
 │   ├── season_data.py       # Seed data from completed races
 │   ├── optimizer.py         # Brute-force team optimizer
-│   ├── chips.py             # Chip strategy heuristics
-│   └── main.py              # Legacy standalone orchestrator
+│   └── chips.py             # Chip strategy heuristics
 ├── data/
 │   ├── state.json           # Gathered state (Step 1)
 │   ├── algorithm_lineup.json # Algorithm recommendation (Step 1)
