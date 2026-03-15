@@ -103,53 +103,215 @@ ROUND_1_CONSTRUCTOR_SCORES = {
 }
 
 
+# Round 2: Chinese Grand Prix, Shanghai, March 13-15 2026 (Sprint Weekend)
+# Antonelli maiden win + youngest pole-sitter ever. Mercedes 1-2 again.
+# McLaren double DNS (Norris/Piastri PU electrical failures), Verstappen DNF (electrical)
+# Aston Martin double DNF, Bortoleto/Albon DNS
+ROUND_2_SPRINT_QUALIFYING = {
+    "Russell": 1,
+    "Antonelli": 2,
+    "Norris": 3,
+    "Hamilton": 4,
+    "Piastri": 5,
+    "Leclerc": 6,
+    "Gasly": 7,
+    "Verstappen": 8,
+    "Bearman": 9,
+    "Hadjar": 10,
+    "Hulkenberg": 11,
+    "Colapinto": 12,
+    "Ocon": 13,
+    "Lawson": 14,
+    "Lindblad": 15,
+    "Bortoleto": 16,
+    "Sainz": 17,
+    "Albon": 18,
+    "Alonso": 19,
+    "Bottas": 20,
+    "Stroll": 21,
+    "Perez": 22,  # Fuel pump issue, no time set in SQ1
+}
+
+ROUND_2_SPRINT = {
+    "Russell": {"position": 1, "grid": 1, "dnf": False},
+    "Leclerc": {"position": 2, "grid": 6, "dnf": False},
+    "Hamilton": {"position": 3, "grid": 4, "dnf": False},
+    "Norris": {"position": 4, "grid": 3, "dnf": False},
+    "Antonelli": {"position": 5, "grid": 2, "dnf": False},  # 10s penalty for Hadjar contact
+    "Piastri": {"position": 6, "grid": 5, "dnf": False},
+    "Lawson": {"position": 7, "grid": 14, "dnf": False},
+    "Bearman": {"position": 8, "grid": 9, "dnf": False},
+    "Verstappen": {"position": 9, "grid": 8, "dnf": False},
+    "Ocon": {"position": 10, "grid": 13, "dnf": False},
+    "Gasly": {"position": 11, "grid": 7, "dnf": False},
+    "Sainz": {"position": 12, "grid": 17, "dnf": False},
+    "Bortoleto": {"position": 13, "grid": 16, "dnf": False},
+    "Colapinto": {"position": 14, "grid": 12, "dnf": False},
+    "Hadjar": {"position": 15, "grid": 10, "dnf": False},  # Damage from Antonelli contact
+    "Albon": {"position": 16, "grid": 22, "dnf": False},   # Pit lane start
+    "Alonso": {"position": 17, "grid": 19, "dnf": False},
+    "Stroll": {"position": 18, "grid": 21, "dnf": False},
+    "Perez": {"position": 19, "grid": 22, "dnf": False},
+    "Hulkenberg": {"position": None, "grid": 11, "dnf": True},  # Hydraulics failure
+    "Bottas": {"position": None, "grid": 20, "dnf": True},
+    "Lindblad": {"position": None, "grid": 15, "dnf": True},
+}
+
+ROUND_2_QUALIFYING = {
+    "Antonelli": 1,   # Youngest pole-sitter in F1 history
+    "Russell": 2,     # Car issue in Q3, stuck in 1st gear
+    "Hamilton": 3,
+    "Leclerc": 4,
+    "Piastri": 5,
+    "Norris": 6,
+    "Gasly": 7,
+    "Verstappen": 8,
+    "Hadjar": 9,
+    "Bearman": 10,
+    "Hulkenberg": 11,
+    "Colapinto": 12,
+    "Ocon": 13,
+    "Lawson": 14,
+    "Lindblad": 15,
+    "Bortoleto": 16,
+    "Sainz": 17,
+    "Albon": 18,
+    "Alonso": 19,
+    "Bottas": 20,
+    "Stroll": 21,
+    "Perez": 22,
+}
+
+ROUND_2_RACE = {
+    "Antonelli": {"position": 1, "points": 25, "grid": 1, "dnf": False},  # Maiden win + fastest lap + DOTD
+    "Russell": {"position": 2, "points": 18, "grid": 2, "dnf": False},
+    "Hamilton": {"position": 3, "points": 15, "grid": 3, "dnf": False},   # First Ferrari podium
+    "Leclerc": {"position": 4, "points": 12, "grid": 4, "dnf": False},
+    "Bearman": {"position": 5, "points": 10, "grid": 9, "dnf": False},    # +4 positions
+    "Gasly": {"position": 6, "points": 8, "grid": 6, "dnf": False},
+    "Lawson": {"position": 7, "points": 6, "grid": 13, "dnf": False},     # +6 positions
+    "Hadjar": {"position": 8, "points": 4, "grid": 8, "dnf": False},
+    "Sainz": {"position": 9, "points": 2, "grid": 16, "dnf": False},      # +7 positions
+    "Colapinto": {"position": 10, "points": 1, "grid": 11, "dnf": False},
+    "Hulkenberg": {"position": 11, "points": 0, "grid": 10, "dnf": False},
+    "Lindblad": {"position": 12, "points": 0, "grid": 14, "dnf": False},
+    "Bottas": {"position": 13, "points": 0, "grid": 18, "dnf": False},
+    "Ocon": {"position": 14, "points": 0, "grid": 12, "dnf": False},      # Lost 2 positions, driving error
+    "Perez": {"position": 15, "points": 0, "grid": 20, "dnf": False},
+    "Verstappen": {"position": None, "points": 0, "grid": 7, "dnf": True},   # Electrical failure lap 46
+    "Alonso": {"position": None, "points": 0, "grid": 17, "dnf": True},      # Retired lap 32
+    "Stroll": {"position": None, "points": 0, "grid": 19, "dnf": True},      # Retired lap 10, caused SC
+    "Piastri": {"position": None, "points": 0, "grid": 5, "dnf": True},      # DNS, PU electrical
+    "Norris": {"position": None, "points": 0, "grid": None, "dnf": True},    # DNS, PU electrical, pit lane
+    "Bortoleto": {"position": None, "points": 0, "grid": 15, "dnf": True},   # DNS, technical
+    "Albon": {"position": None, "points": 0, "grid": None, "dnf": True},     # DNS, technical, pit lane
+}
+
+# Actual fantasy scores from API gameday_points for Round 2
+ROUND_2_FANTASY_SCORES = {
+    "Antonelli":  (10, 58, 68),   # Pole(10) + race win(25) + fastest lap(10) + DOTD(10) + sprint(4) - sprint penalty
+    "Leclerc":    (8,  43, 51),   # Q4(8) + race P4(12) + sprint P2(7) + positions gained
+    "Hamilton":   (8,  40, 48),   # Q3(8) + race P3(15) + sprint P3(6) + positions
+    "Russell":    (9,  36, 45),   # Q2(9) + race P2(18) + sprint win(8)
+    "Lawson":     (0,  35, 35),   # Out of Q2(0) + race P7 from P13(+6 positions) + sprint P7(2)
+    "Bearman":    (1,  33, 34),   # Q10(1) + race P5 from P9(+4 positions, 10pts) + sprint P8(1)
+    "Sainz":      (0,  28, 28),   # Out of Q2(0) + race P9 from P16(+7 positions, 2pts) + sprint P12
+    "Ocon":       (0,  24, 24),   # Out of Q2(0) + race P14(lost positions) + sprint P10
+    "Perez":      (0,  20, 20),   # Out of Q1(0) + race P15 from P20(+5 positions) + sprint P19
+    "Gasly":      (4,  16, 20),   # Q7(4) + race P6(8) + sprint P11(lost positions)
+    "Hadjar":     (2,  17, 19),   # Q9(2) + race P8(4) + sprint P15(-5 from contact)
+    "Colapinto":  (0,  18, 18),   # Out of Q2(0) + race P10(1) + sprint P14 + positions gained
+    "Verstappen": (3,  11, 14),   # Q8(3) + DNF(-20) + sprint P9 + positions
+    "Lindblad":   (0,   7,  7),   # Out of Q2(0) + race P12 from P14 + sprint DNF(-10)
+    "Hulkenberg": (0,   7,  7),   # Out of Q2(0) + race P11 + sprint DNF
+    "Bottas":     (0,   3,  3),   # Out of Q1(0) + race P13 from P18(+5) + sprint DNF
+    "Norris":     (-5, -5, -10),  # Q6 but DNS(-5) + DNS race(-20) + sprint P4(5)
+    "Albon":      (-5, -2, -7),   # Out of Q1(0) + DNS race + sprint P16
+    "Alonso":     (0,  -7, -7),   # Out of Q1(0) + DNF(-20) + sprint P17
+    "Piastri":    (-5, -2, -7),   # Q5 but DNS(-5) + DNS(-20) + sprint P6(3)
+    "Bortoleto":  (0, -14, -14),  # Out of Q2(0) + DNS(-20?) + sprint P13
+    "Stroll":     (0, -14, -14),  # Out of Q1(0) + DNF(-20) + sprint P18
+}
+
+ROUND_2_CONSTRUCTOR_SCORES = {
+    "Ferrari":       119,  # Leclerc P4 + Hamilton P3, both Q3(+10), strong pitstops
+    "Mercedes":      115,  # Russell P2 + Antonelli P1, both Q3(+10), sprint 1-2
+    "Haas F1 Team":   65,  # Bearman P5 + Ocon P14, one Q3(+3)
+    "Racing Bulls":   50,  # Lawson P7 + Lindblad P12
+    "Red Bull Racing": 45, # Hadjar P8, Verstappen DNF
+    "Alpine":          45, # Gasly P6 + Colapinto P10
+    "Williams":        22, # Sainz P9 + Albon DNS
+    "Cadillac":        22, # Perez P15 + Bottas P13
+    "McLaren":         -7, # Double DNS
+    "Audi":            -4, # Bortoleto DNS + Hulkenberg P11
+    "Aston Martin":   -20, # Double DNF
+}
+
+
 def get_completed_rounds() -> list[int]:
     """Return list of completed round numbers."""
-    return [1]
+    return [1, 2]
+
+
+_FANTASY_SCORES_BY_ROUND = {
+    1: ROUND_1_FANTASY_SCORES,
+    2: ROUND_2_FANTASY_SCORES,
+}
+
+_CONSTRUCTOR_SCORES_BY_ROUND = {
+    1: ROUND_1_CONSTRUCTOR_SCORES,
+    2: ROUND_2_CONSTRUCTOR_SCORES,
+}
+
+_QUALIFYING_BY_ROUND = {
+    1: ROUND_1_QUALIFYING,
+    2: ROUND_2_QUALIFYING,
+}
+
+_RACE_BY_ROUND = {
+    1: ROUND_1_RACE,
+    2: ROUND_2_RACE,
+}
 
 
 def get_driver_fantasy_score(driver_name: str, round_num: int) -> float | None:
     """Get a driver's fantasy score for a specific round."""
-    if round_num == 1:
-        entry = ROUND_1_FANTASY_SCORES.get(driver_name)
-        if entry:
-            return entry[2] if isinstance(entry, tuple) else entry
+    scores = _FANTASY_SCORES_BY_ROUND.get(round_num, {})
+    entry = scores.get(driver_name)
+    if entry:
+        return entry[2] if isinstance(entry, tuple) else entry
     return None
 
 
 def get_constructor_fantasy_score(constructor_name: str, round_num: int) -> float | None:
     """Get a constructor's fantasy score for a specific round."""
-    if round_num == 1:
-        return ROUND_1_CONSTRUCTOR_SCORES.get(constructor_name)
-    return None
+    return _CONSTRUCTOR_SCORES_BY_ROUND.get(round_num, {}).get(constructor_name)
 
 
 def get_qualifying_position(driver_name: str, round_num: int) -> int | None:
     """Get a driver's qualifying position for a specific round."""
-    if round_num == 1:
-        return ROUND_1_QUALIFYING.get(driver_name)
-    return None
+    return _QUALIFYING_BY_ROUND.get(round_num, {}).get(driver_name)
 
 
 def get_race_result(driver_name: str, round_num: int) -> dict | None:
     """Get a driver's race result for a specific round."""
-    if round_num == 1:
-        return ROUND_1_RACE.get(driver_name)
-    return None
+    return _RACE_BY_ROUND.get(round_num, {}).get(driver_name)
 
 
 def get_all_driver_scores() -> dict[str, list[tuple[int, float]]]:
     """Get all driver scores as {name: [(round, score), ...]}."""
     scores = {}
-    for name, entry in ROUND_1_FANTASY_SCORES.items():
-        score = entry[2] if isinstance(entry, tuple) else entry
-        scores[name] = [(1, score)]
+    for round_num, round_scores in _FANTASY_SCORES_BY_ROUND.items():
+        for name, entry in round_scores.items():
+            score = entry[2] if isinstance(entry, tuple) else entry
+            scores.setdefault(name, []).append((round_num, score))
     return scores
 
 
 def get_all_constructor_scores() -> dict[str, list[tuple[int, float]]]:
     """Get all constructor scores as {name: [(round, score), ...]}."""
     scores = {}
-    for name, score in ROUND_1_CONSTRUCTOR_SCORES.items():
-        scores[name] = [(1, score)]
+    for round_num, round_scores in _CONSTRUCTOR_SCORES_BY_ROUND.items():
+        for name, score in round_scores.items():
+            scores.setdefault(name, []).append((round_num, score))
     return scores

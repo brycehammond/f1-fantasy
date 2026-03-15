@@ -41,6 +41,13 @@ def determine_round(state: dict) -> int:
     cr = state.get("current_round")
     if cr:
         return cr.get("game_period_id", 2)
+    # Fall back to mdid from raw API (matchday ID)
+    raw = state.get("raw_api", {})
+    picked = raw.get("picked_teams", {})
+    data_val = picked.get("Data", {}).get("Value", {})
+    mdid = data_val.get("mdid")
+    if mdid:
+        return mdid
     return 2
 
 

@@ -374,7 +374,10 @@ async def scrape_authenticated_data(playwright, feed_items: list[dict] | None = 
         auth_data["chips"] = _parse_chips(boosters_raw)
         print(f"  Chips available: {', '.join(auth_data['chips']['available'])}")
     else:
-        auth_data["chips"] = {"available": [], "used": {}}
+        # Fallback: parse chip status from getteam response (is*taken fields)
+        auth_data["chips"] = _parse_chips_from_team(captured_responses.get("picked_teams"))
+        if auth_data["chips"]["available"]:
+            print(f"  Chips (from team data): {', '.join(auth_data['chips']['available'])}")
 
     # Take screenshot
     screenshot_path = DATA_DIR / "my_team_screenshot.png"
@@ -904,6 +907,57 @@ def _parse_chips(data: dict) -> dict:
             used[name] = booster.get("game_period_id")
         else:
             available.append(name)
+    return {"available": available, "used": used}
+
+
+# Mapping from getteam API field names to chip names
+_CHIP_FIELDS = {
+    "iswildcardtaken": "wildcard",
+    "islimitlesstaken": "limitless",
+    "isextradrstaken": "extra_drs",
+    "isautopilottaken": "autopilot",
+    "isnonigativetaken": "no_negative",  # API has typo: "nonigative"
+    "isfinalfixtaken": "final_fix",
+}
+
+# Corresponding "taken on gameday" fields
+_CHIP_GD_FIELDS = {
+    "wildcardtakengd": "wildcard",
+    "limitlesstakengd": "limitless",
+    "extradrstakengd": "extra_drs",
+    "autopilottakengd": "autopilot",
+    "nonigativetakengd": "no_negative",
+    "finalfixtakengd": "final_fix",  # not present but consistent
+}
+
+
+def _parse_chips_from_team(data: dict | None) -> dict:
+    """Fallback: parse chip availability from getteam response is*taken fields."""
+    available = []
+    used = {}
+
+    if not data:
+        return {"available": [], "used": {}}
+
+    # Navigate to userTeam[0] in the nested structure
+    value = data
+    if isinstance(data, dict):
+        value = data.get("Data", data).get("Value", data)
+    user_teams = value.get("userTeam", [value] if isinstance(value, dict) else [])
+    if not user_teams:
+        return {"available": [], "used": {}}
+
+    team = user_teams[0]
+
+    for field, chip_name in _CHIP_FIELDS.items():
+        taken = team.get(field, 0)
+        if taken:
+            # Find which gameday it was used on
+            gd_field = field.replace("is", "").replace("taken", "takengd")
+            used[chip_name] = team.get(gd_field)
+        else:
+            available.append(chip_name)
+
     return {"available": available, "used": used}
 
 
