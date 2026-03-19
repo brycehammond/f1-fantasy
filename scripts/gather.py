@@ -375,7 +375,8 @@ async def scrape_authenticated_data(playwright, feed_items: list[dict] | None = 
         print(f"  Chips available: {', '.join(auth_data['chips']['available'])}")
     else:
         # Fallback: parse chip status from getteam response (is*taken fields)
-        auth_data["chips"] = _parse_chips_from_team(captured_responses.get("picked_teams"))
+        team_data = captured_responses.get("picked_teams") or captured_responses.get("getteam")
+        auth_data["chips"] = _parse_chips_from_team(team_data)
         if auth_data["chips"]["available"]:
             print(f"  Chips (from team data): {', '.join(auth_data['chips']['available'])}")
 
@@ -1029,20 +1030,6 @@ async def _dismiss_cookie_banner(page):
                 }
             }
 
-            // Nuclear option: remove common overlay containers
-            const overlays = document.querySelectorAll(
-                '#onetrust-consent-sdk, .onetrust-pc-dark-filter, ' +
-                '[class*="cookie-banner"], [class*="cookie-consent"], ' +
-                '[class*="CookieBanner"], [id*="cookie-banner"], ' +
-                '#didomi-popup, .qc-cmp2-container, ' +
-                '[class*="consent-banner"], [class*="ConsentBanner"]'
-            );
-            if (overlays.length > 0) {
-                overlays.forEach(el => el.remove());
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
-                return 'removed:' + overlays.length;
-            }
             return null;
         }
     """)
@@ -1052,7 +1039,7 @@ async def _dismiss_cookie_banner(page):
         await page.wait_for_timeout(1000)
         return
 
-    # Selector-based fallback
+    # Selector-based fallback (checks iframes too via Playwright auto-piercing)
     cookie_selectors = [
         'button:has-text("Accept All")',
         'button:has-text("Accept all")',
@@ -1071,7 +1058,7 @@ async def _dismiss_cookie_banner(page):
         except Exception:
             continue
 
-    # Try within iframes
+    # Try within iframes (Sourcepoint CMP renders buttons inside iframes)
     for frame in page.frames:
         if frame == page.main_frame:
             continue
@@ -1096,6 +1083,28 @@ async def _dismiss_cookie_banner(page):
                 return
         except Exception:
             continue
+
+    # Nuclear option: remove common overlay containers (last resort)
+    removed = await page.evaluate("""
+        () => {
+            const overlays = document.querySelectorAll(
+                '#onetrust-consent-sdk, .onetrust-pc-dark-filter, ' +
+                '[class*="cookie-banner"], [class*="cookie-consent"], ' +
+                '[class*="CookieBanner"], [id*="cookie-banner"], ' +
+                '#didomi-popup, .qc-cmp2-container, ' +
+                '[class*="consent-banner"], [class*="ConsentBanner"]'
+            );
+            if (overlays.length > 0) {
+                overlays.forEach(el => el.remove());
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                return 'removed:' + overlays.length;
+            }
+            return null;
+        }
+    """)
+    if removed:
+        print(f"  Dismissed cookie banner ({removed})")
 
 
 async def _dismiss_overlays(page):
