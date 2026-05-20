@@ -177,7 +177,9 @@ def project_driver(
             for k in components
             if k in weights
         )
-        confidence = min(1.0, 0.15 + 0.12 * n_completed)
+        # Confidence reflects data we have for THIS driver, not just global season progress
+        driver_data_points = len(historical_scores)
+        confidence = min(1.0, 0.15 + 0.12 * driver_data_points)
 
     ppm = raw_points / price if price > 0 else 0
 
@@ -263,7 +265,8 @@ def project_constructor(
             for k in components
             if k in weights
         )
-        confidence = min(1.0, 0.15 + 0.12 * n_completed)
+        constructor_data_points = len(historical_scores)
+        confidence = min(1.0, 0.15 + 0.12 * constructor_data_points)
 
     ppm = raw_points / price if price > 0 else 0
 

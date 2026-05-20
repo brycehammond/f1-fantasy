@@ -220,7 +220,7 @@ def run(ppm_weight: float = 0.3):
 
     chip_rec = recommend_chip(
         current_round=target_round,
-        total_rounds=24,
+        total_rounds=22,
         available_chips=available_chips,
         transfers_needed=len(use_lineup.transfers_needed),
         free_transfers=free_transfers,

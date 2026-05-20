@@ -10,16 +10,17 @@ class ChipRecommendation:
     confidence: float  # 0.0 to 1.0
 
 
-# Sprint weekends in 2026 (rounds with sprint races = more points available)
-SPRINT_ROUNDS = {2, 6, 7, 11, 14, 18}
+# Sprint weekends in 2026 — renumbered after Bahrain (R4) + Jeddah (R5) cancelled.
+# Original sprint rounds were {2, 6, 7, 11, 14, 18}.
+SPRINT_ROUNDS = {2, 4, 5, 9, 12, 16}
 
 # Historically high-scoring circuits (lots of overtaking, DNFs, variability)
 HIGH_VARIANCE_ROUNDS = {
     1,   # Australia (street-ish, safety cars)
-    17,  # Azerbaijan (street circuit, chaos)
-    18,  # Singapore (street circuit, safety cars)
-    21,  # Brazil (weather, overtaking)
-    22,  # Las Vegas (street, cold temps)
+    15,  # Azerbaijan (street circuit, chaos) — was R17
+    16,  # Singapore (street circuit, safety cars) — was R18
+    19,  # Brazil (weather, overtaking) — was R21
+    20,  # Las Vegas (street, cold temps) — was R22
 }
 
 
